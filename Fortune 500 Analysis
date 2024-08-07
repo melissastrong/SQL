@@ -1,0 +1,33 @@
+SELECT *
+FROM fortune_companies;
+
+SELECT industry, paid_time_off_days
+FROM fortune_companies
+GROUP BY industry;
+--Show paid time off days by industry
+
+SELECT company_name, 
+CASE WHEN avg_employee_tenure >=7 THEN "7+"
+WHEN avg_employee_tenure>=6 THEN "6+"
+WHEN avg_employee_tenure>=5 THEN "5+"
+ELSE "Under 5" END AS "avg_tenure"
+FROM fortune_companies
+GROUP BY avg_employee_tenure;
+--Show the average employee tenure per company 
+
+SELECT industry, MAX(revenue)
+FROM fortune_companies
+GROUP BY industry;
+--Show max revenue by industry
+
+SELECT industry, MAX(revenue) AS max_revenue
+FROM fortune_companies
+GROUP BY industry
+HAVING max_revenue>400;
+--Show max revenue by industry if it is over 400
+
+SELECT *
+FROM fortune_companies
+WHERE healthcare_benefits=1 AND paid_time_off_days>=16;
+--Show companies that have healthcare benefits and 16 or more paid days off
+
