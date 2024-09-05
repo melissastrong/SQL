@@ -51,3 +51,24 @@ FROM chinook0.tracks AS t
 INNER JOIN chinook0.invoice_items AS ii ON ii.TrackId=t.TrackId
 INNER JOIN chinook0.albums AS al ON al.AlbumId=t.AlbumId
 INNER JOIN chinook0.artists AS A ON a.ArtistId=al.ArtistId;
+
+SELECT t.Name AS track_name, al.Title as album_name, m.Name AS media_type, g.Name AS genre
+FROM chinook0.tracks AS t
+INNER JOIN chinook0.albums AS al ON t.AlbumId=al.AlbumId
+INNER JOIN chinook0.media_types AS m ON t.MediaTypeId=m.MediaTypeId
+INNER JOIN chinook0.genres AS g ON t.GenreId=g.GenreId;
+
+SELECT e.LastName, e.FirstName, SUM(i.total) AS total_sales
+FROM chinook0.employees AS e
+INNER JOIN chinook0.customers AS c ON c.SupportRepId=e.EmployeeId
+INNER JOIN chinook0.invoices as i ON i.CustomerId=c.CustomerId
+GROUP BY e.LastName, e.FirstName;
+
+SELECT e.LastName, e.FirstName, SUM(i.total) AS total_sales
+FROM chinook0.employees AS e
+INNER JOIN chinook0.customers AS c ON c.SupportRepId=e.EmployeeId
+INNER JOIN chinook0.invoices as i ON i.CustomerId=c.CustomerId
+WHERE i.InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31'
+GROUP BY e.LastName, e.FirstName
+ORDER BY total_sales desc
+LIMIT 1;
