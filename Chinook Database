@@ -1,0 +1,53 @@
+SELECT * FROM chinook0.tracks;
+
+SELECT CustomerID, FirstName, LastName, Country
+FROM chinook0.customers
+WHERE Country <> "USA"
+GROUP BY CustomerID;
+
+SELECT CustomerID, FirstName, LastName, Country
+FROM chinook0.customers
+WHERE Country= "Brazil"
+GROUP BY CustomerID;
+
+SELECT FirstName, LastName, BillingCountry, InvoiceId, InvoiceDate
+FROM chinook0.customers
+LEFT JOIN chinook0.invoices ON invoices.CustomerId=customers.CustomerId
+WHERE Country= "Brazil";
+
+SELECT LastName, FirstName, Title
+FROM chinook0.employees
+WHERE Title="Sales Support Agent";
+
+SELECT distinct BillingCountry
+FROM chinook0.invoices
+ORDER BY BillingCountry;
+
+SELECT LastName, FirstName, InvoiceId, CustomerId, InvoiceDate, BillingAddress, BillingCity, BillingState, BillingCountry, BillingPostalCode, Total
+FROM chinook0.employees
+INNER JOIN chinook0.customers ON chinook0.customers.SupportRepId= chinook0.employees.EmployeeId
+INNER JOIN chinook0.invoices ON chinook0.customers.CustomerId=chinook0.invoices.CustomerId;
+
+SELECT LastName AS EmployeeLastName, FirstName AS EmployeeFirstName, chinook0.customers.LastName AS CustomerLastName, chinook0.customers.FirstName AS CustomerFirstName, BillingCountry, Total
+FROM chinook0.employees
+INNER JOIN chinook0.customers ON chinook0.customers.SupportRepId= chinook0.employees.EmployeeId
+INNER JOIN chinook0.invoices ON chinook0.customers.CustomerId=chinook0.invoices.CustomerId;
+
+SELECT COUNT(*) as invoice_count
+FROM chinook0.invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+
+SELECT SUM(Total) as total_sales
+FROM chinook0.invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+
+SELECT InvoiceLineId, Name
+FROM chinook0.tracks
+INNER JOIN chinook0.invoice_items ON chinook0.invoice_items.TrackId=chinook0.tracks.TrackId
+ORDER BY InvoiceLineId;
+
+SELECT ii.InvoiceLineId, t.Name as track_name, a.Name AS artist_name
+FROM chinook0.tracks AS t
+INNER JOIN chinook0.invoice_items AS ii ON ii.TrackId=t.TrackId
+INNER JOIN chinook0.albums AS al ON al.AlbumId=t.AlbumId
+INNER JOIN chinook0.artists AS A ON a.ArtistId=al.ArtistId;
